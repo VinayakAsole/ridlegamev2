@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alphanumerical Riddle Challenge</title>
+    <meta name="description" content="Test your logical thinking and pattern recognition with our alphanumerical riddle challenge. Progress through Easy, Medium, and Hard difficulty levels!">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Particle Canvas (background) -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Floating orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+
+    <!-- Fireworks Canvas (on top, transparent) -->
+    <canvas id="fireworksCanvas"></canvas>
+
+    <!-- Dark Mode Toggle -->
+    <button id="darkModeToggle" class="dark-mode-toggle" title="Toggle Dark Mode">
+        <i class="fas fa-moon" id="darkModeIcon"></i>
+    </button>
+
+    <div class="container">
+
+        <!-- ══════════════════ WELCOME PAGE ══════════════════ -->
+        <div id="welcomePage" class="page active">
+            <header class="welcome-header">
+                <div class="logo-section">
+                    <div class="logo-3d">
+                        <span class="logo-inner">🧩</span>
+                    </div>
+                    <h1 class="main-title glitch-text" data-text="Alphanumerical Riddle Challenge">Alphanumerical Riddle Challenge</h1>
+                    <p class="tagline neon-text">Master the Art of Pattern Recognition</p>
+                </div>
+            </header>
+
+            <main class="welcome-content">
+                <div class="welcome-card tilt-card" id="welcomeCard">
+                    <div class="card-shine"></div>
+                    <h2>Welcome to the Ultimate Brain Challenge!</h2>
+                    <p class="description">
+                        Test your logical thinking and pattern recognition skills with our collection of
+                        alphanumerical riddles. Progress through different difficulty levels and unlock your potential!
+                    </p>
+
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon-wrap"><i class="fas fa-brain"></i></div>
+                            <h3>Mind Training</h3>
+                            <p>Enhance cognitive abilities</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon-wrap"><i class="fas fa-trophy"></i></div>
+                            <h3>Progressive Levels</h3>
+                            <p>20 levels per difficulty</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon-wrap"><i class="fas fa-chart-line"></i></div>
+                            <h3>Track Progress</h3>
+                            <p>Monitor your improvement</p>
+                        </div>
+                    </div>
+
+                    <div class="global-stats-bar" id="globalStatsBar">
+                        <div class="global-stat-item">
+                            <i class="fas fa-star"></i>
+                            <span id="globalCorrect" class="counter-num">0</span>
+                            <label>Solved</label>
+                        </div>
+                        <div class="global-stat-item">
+                            <i class="fas fa-fire"></i>
+                            <span id="globalBestStreak" class="counter-num">0</span>
+                            <label>Best Streak</label>
+                        </div>
+                        <div class="global-stat-item">
+                            <i class="fas fa-percent"></i>
+                            <span id="globalAccuracy" class="counter-num">0%</span>
+                            <label>Accuracy</label>
+                        </div>
+                    </div>
+
+                    <button id="startGameBtn" class="start-btn btn-3d">
+                        <span class="btn-text"><i class="fas fa-play"></i> Start Challenge</span>
+                        <span class="btn-glow"></span>
+                    </button>
+                </div>
+
+                <div class="developer-card tilt-card" id="devCard">
+                    <div class="card-shine"></div>
+                    <div class="developer-info">
+                        <div class="developer-avatar">
+                            <div class="avatar-ring">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                        </div>
+                        <div class="developer-details">
+                            <h3>Developed by</h3>
+                            <h2 class="dev-name">Vinayak Asole</h2>
+                            <p class="developer-title">Full Stack Developer &amp; Problem Solver</p>
+                            <p class="developer-description">
+                                Passionate about creating engaging educational experiences that challenge
+                                and inspire learners to think critically and solve complex problems.
+                            </p>
+                            <div class="social-links">
+                                <a href="https://github.com/VinayakAsole" class="social-link" target="_blank" rel="noopener" title="GitHub"><i class="fab fa-github"></i></a>
+                                <a href="https://www.linkedin.com/in/vinayak-asole-b1212625a" class="social-link" target="_blank" rel="noopener" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                                <a href="https://www.instagram.com/univarsalking_uv?utm_source=qr" class="social-link" target="_blank" rel="noopener" title="Instagram"><i class="fab fa-instagram"></i></a>
+                                <a href="mailto:vinayakasole1@gmail.com" class="social-link" title="Email"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- ══════════════════ STAGE SELECTION PAGE ══════════════════ -->
+        <div id="stageSelectionPage" class="page">
+            <header class="page-header">
+                <button id="backToWelcome" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <div>
+                    <h1 class="page-title">Choose Your Challenge</h1>
+                    <p class="page-subtitle">Select difficulty level to begin</p>
+                </div>
+            </header>
+
+            <main class="stage-content">
+                <div class="stages-grid">
+                    <div class="stage-card easy tilt-card" data-stage="easy">
+                        <div class="card-shine"></div>
+                        <div class="stage-glow easy-glow"></div>
+                        <div class="stage-icon-3d">🌱</div>
+                        <h2>Easy</h2>
+                        <p class="stage-description">Perfect for beginners</p>
+                        <ul class="stage-features">
+                            <li>Simple patterns</li>
+                            <li>Basic sequences</li>
+                            <li>Helpful hints</li>
+                        </ul>
+                        <div class="stage-stats">
+                            <span class="level-count">20 Levels</span>
+                            <span class="completion" id="easyCompletion">0/20</span>
+                        </div>
+                        <div class="stage-stars" id="easyStars">
+                            <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        </div>
+                        <button class="select-stage-btn btn-3d easy-btn">
+                            <span class="btn-text">Start Easy</span>
+                            <span class="btn-glow"></span>
+                        </button>
+                    </div>
+
+                    <div class="stage-card medium tilt-card" data-stage="medium">
+                        <div class="card-shine"></div>
+                        <div class="stage-glow medium-glow"></div>
+                        <div class="stage-icon-3d">🔥</div>
+                        <h2>Medium</h2>
+                        <p class="stage-description">For intermediate solvers</p>
+                        <ul class="stage-features">
+                            <li>Complex patterns</li>
+                            <li>Multiple operations</li>
+                            <li>Strategic thinking</li>
+                        </ul>
+                        <div class="stage-stats">
+                            <span class="level-count">20 Levels</span>
+                            <span class="completion" id="mediumCompletion">0/20</span>
+                        </div>
+                        <div class="stage-stars" id="mediumStars">
+                            <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        </div>
+                        <button class="select-stage-btn btn-3d medium-btn">
+                            <span class="btn-text">Start Medium</span>
+                            <span class="btn-glow"></span>
+                        </button>
+                    </div>
+
+                    <div class="stage-card hard tilt-card" data-stage="hard">
+                        <div class="card-shine"></div>
+                        <div class="stage-glow hard-glow"></div>
+                        <div class="stage-icon-3d">⚡</div>
+                        <h2>Hard</h2>
+                        <p class="stage-description">Ultimate challenge</p>
+                        <ul class="stage-features">
+                            <li>Advanced patterns</li>
+                            <li>Mathematical sequences</li>
+                            <li>Expert level</li>
+                        </ul>
+                        <div class="stage-stats">
+                            <span class="level-count">20 Levels</span>
+                            <span class="completion" id="hardCompletion">0/20</span>
+                        </div>
+                        <div class="stage-stars" id="hardStars">
+                            <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        </div>
+                        <button class="select-stage-btn btn-3d hard-btn">
+                            <span class="btn-text">Start Hard</span>
+                            <span class="btn-glow"></span>
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- ══════════════════ GAME PAGE ══════════════════ -->
+        <div id="gamePage" class="page">
+            <header class="game-header">
+                <button id="backToStages" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <div class="game-info">
+                    <h2 id="currentStage" class="stage-title-badge">Easy</h2>
+                    <div class="level-info">
+                        <span>Level</span>
+                        <span id="currentLevel" class="level-num">1</span>
+                        <span>/ 20</span>
+                    </div>
+                </div>
+                <div class="game-controls">
+                    <div class="timer-display" id="timerDisplay">
+                        <i class="fas fa-clock"></i>
+                        <span id="timerValue">0:00</span>
+                    </div>
+                    <button id="showLevelsBtn" class="show-levels-btn">
+                        <i class="fas fa-list"></i> Levels
+                    </button>
+                    <div class="game-progress">
+                        <div class="progress-3d">
+                            <div class="progress-track">
+                                <div class="progress-fill" id="progressFill"></div>
+                                <div class="progress-glow" id="progressGlow"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="game-content">
+                <!-- 3D flip card wrapper -->
+                <div class="flip-card-wrapper" id="flipCardWrapper">
+                    <div class="flip-card-inner" id="flipCardInner">
+                        <div class="flip-card-front riddle-card tilt-card" id="riddleCard">
+                            <div class="card-shine"></div>
+                            <div class="riddle-header">
+                                <h3><i class="fas fa-puzzle-piece"></i> Current Challenge</h3>
+                                <div class="difficulty-badge" id="difficulty">Easy</div>
+                            </div>
+
+                            <div class="riddle-content">
+                                <p class="riddle-question" id="riddleQuestion">What comes next?</p>
+                                <div class="sequence-box">
+                                    <span class="sequence" id="sequenceText">A1, B2, C3, D4, ?</span>
+                                    <div class="sequence-glow"></div>
+                                </div>
+                            </div>
+
+                            <div class="input-section">
+                                <div class="input-wrapper">
+                                    <input type="text" id="answerInput" placeholder="Type your answer…" class="answer-input" autocomplete="off" spellcheck="false">
+                                    <div class="input-border-anim"></div>
+                                </div>
+                                <button id="submitBtn" class="submit-btn btn-3d">
+                                    <span class="btn-text">Submit</span>
+                                    <span class="btn-glow"></span>
+                                </button>
+                            </div>
+
+                            <div class="result-section" id="resultSection">
+                                <p id="resultText"></p>
+                            </div>
+
+                            <div class="hint-section">
+                                <button id="hintBtn" class="hint-btn btn-3d">
+                                    <span class="btn-text">💡 Get Hint</span>
+                                    <span class="btn-glow"></span>
+                                </button>
+                                <p id="hintText" class="hint-text"></p>
+                            </div>
+
+                            <div class="skip-section">
+                                <button id="skipBtn" class="skip-btn">
+                                    <i class="fas fa-forward"></i> Skip
+                                    <span class="skip-badge" id="skipBadge">3 left</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-card tilt-card" id="statsCard">
+                    <div class="card-shine"></div>
+                    <h3><i class="fas fa-chart-bar"></i> Your Progress</h3>
+
+                    <div class="stats-grid">
+                        <div class="stat-item stat-correct">
+                            <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                            <span class="stat-number" id="correctAnswers">0</span>
+                            <span class="stat-label">Correct</span>
+                            <div class="stat-ring"></div>
+                        </div>
+                        <div class="stat-item stat-attempts">
+                            <div class="stat-icon"><i class="fas fa-crosshairs"></i></div>
+                            <span class="stat-number" id="totalAttempts">0</span>
+                            <span class="stat-label">Attempts</span>
+                            <div class="stat-ring"></div>
+                        </div>
+                        <div class="stat-item stat-streak">
+                            <div class="stat-icon"><i class="fas fa-fire"></i></div>
+                            <span class="stat-number" id="currentStreak">0</span>
+                            <span class="stat-label">Streak 🔥</span>
+                            <div class="stat-ring"></div>
+                        </div>
+                    </div>
+
+                    <div class="accuracy-meter">
+                        <div class="accuracy-label">
+                            <span>Accuracy</span>
+                            <span id="accuracyPercent">0%</span>
+                        </div>
+                        <div class="accuracy-bar">
+                            <div class="accuracy-fill" id="accuracyFill"></div>
+                        </div>
+                    </div>
+
+                    <div class="best-streak-display">
+                        <i class="fas fa-fire-flame-curved"></i>
+                        <div>
+                            <span class="best-streak-label">Best Streak</span>
+                            <span class="best-streak-value" id="bestStreakDisplay">0</span>
+                        </div>
+                    </div>
+
+                    <!-- Level mini-map -->
+                    <div class="mini-map" id="miniMap">
+                        <div class="mini-map-label">Level Map</div>
+                        <div class="mini-dots" id="miniDots"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- ══════════════════ CONGRATS MODAL ══════════════════ -->
+        <div id="congratsModal" class="modal">
+            <div class="modal-content congrats-modal">
+                <div class="congrats-burst" id="congratsBurst"></div>
+                <div class="modal-header congrats-header">
+                    <div class="congrats-icon bounce-anim">🎉</div>
+                    <h2 class="neon-text">Correct!</h2>
+                    <p class="congrats-message">Excellent work! You nailed it!</p>
+                </div>
+                <div class="modal-body congrats-body">
+                    <p id="congratsText">Perfect! Your answer is correct!</p>
+                    <div class="quick-stats">
+                        <div class="quick-stat">
+                            <i class="fas fa-clock"></i>
+                            <span id="quickTime">--</span>
+                        </div>
+                        <div class="quick-stat">
+                            <i class="fas fa-crosshairs"></i>
+                            <span id="quickAttempts">-- attempts</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer congrats-footer">
+                    <button id="nextQuizBtn" class="modal-btn primary btn-3d next-quiz-btn">
+                        <span class="btn-text"><i class="fas fa-arrow-right"></i> Next Quiz</span>
+                        <span class="btn-glow"></span>
+                    </button>
+                    <button id="stayHereBtn" class="modal-btn secondary">
+                        <i class="fas fa-eye"></i> View Answer
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════════ LEVELS MODAL ══════════════════ -->
+        <div id="showLevelsModal" class="modal">
+            <div class="modal-content levels-modal">
+                <div class="modal-header levels-header">
+                    <h2><i class="fas fa-list"></i> All Levels</h2>
+                    <p id="levelsModalSubtitle">Easy Difficulty</p>
+                    <button id="closeLevelsModal" class="close-modal-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body levels-body">
+                    <div class="levels-grid" id="levelsGrid"></div>
+                    <div class="levels-legend">
+                        <div class="legend-item"><div class="legend-icon completed"></div><span>Done</span></div>
+                        <div class="legend-item"><div class="legend-icon current"></div><span>Current</span></div>
+                        <div class="legend-item"><div class="legend-icon locked"></div><span>Locked</span></div>
+                    </div>
+                </div>
+                <div class="modal-footer levels-footer">
+                    <button id="resetProgressBtn" class="modal-btn secondary">
+                        <i class="fas fa-rotate-right"></i> Reset
+                    </button>
+                    <button id="closeLevelsBtn" class="modal-btn primary btn-3d">
+                        <span class="btn-text"><i class="fas fa-check"></i> Close</span>
+                        <span class="btn-glow"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════════ STAGE COMPLETE MODAL ══════════════════ -->
+        <div id="levelCompleteModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>🏆 Stage Complete!</h2>
+                </div>
+                <div class="modal-body">
+                    <p id="levelCompleteText">Amazing! You've completed this stage!</p>
+                    <div class="level-stats">
+                        <div class="stat"><span class="stat-label">Time:</span><span id="levelTime">--</span></div>
+                        <div class="stat"><span class="stat-label">Attempts:</span><span id="levelAttempts">--</span></div>
+                    </div>
+                    <div class="stage-complete-stars" id="stageCompleteStars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="nextLevelBtn" class="modal-btn primary btn-3d">
+                        <span class="btn-text">Back to Stages</span>
+                        <span class="btn-glow"></span>
+                    </button>
+                    <button id="backToStagesFromModal" class="modal-btn secondary">Home</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast -->
+        <div id="toastNotification" class="toast">
+            <span id="toastMessage"></span>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2025 Alphanumerical Riddle Challenge &bull; <span class="neon-text-sm">by Vinayak Asole</span></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
