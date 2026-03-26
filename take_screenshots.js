@@ -8,11 +8,10 @@ const path = require('path');
         defaultViewport: { width: 1280, height: 800 }
     });
     
-    
     try {
         const page = await browser.newPage();
         const fileUrl = 'file:///c:/Users/LENOVO/Desktop/project%20for%20git/semiv/iv/ridlegamev2/index.html';
-        const basePath = path.join('c:/Users/LENOVO/Desktop/project for git/semiv/iv/ridlegamev2', 'images');
+        const basePath = 'c:/Users/LENOVO/Desktop/project for git/semiv/iv/ridlegamev2/images';
         
         console.log("Loading page...");
         await page.goto(fileUrl, { waitUntil: 'networkidle0' });
@@ -22,9 +21,31 @@ const path = require('path');
         await page.screenshot({ path: path.join(basePath, '1.png') });
         console.log("Captured 1.png");
 
+        // 6. Auth Modal (taken on welcome page)
+        console.log("Opening auth modal...");
+        await page.evaluate(() => {
+            document.getElementById('loginBtn').click();
+        });
+        await new Promise(r => setTimeout(r, 1000));
+        await page.screenshot({ path: path.join(basePath, '6.png') });
+        console.log("Captured 6.png");
+
+        // 7. Leaderboard Modal
+        console.log("Opening leaderboard modal...");
+        await page.evaluate(() => {
+            document.getElementById('closeAuthModal').click();
+            setTimeout(() => document.getElementById('leaderboardBtn').click(), 500);
+        });
+        await new Promise(r => setTimeout(r, 1000));
+        await page.screenshot({ path: path.join(basePath, '7.png') });
+        console.log("Captured 7.png");
+
         // 2. Stage Selection Page
         console.log("Navigating to stage selection...");
-        await page.evaluate(() => document.getElementById('startGameBtn').click());
+        await page.evaluate(() => {
+            document.getElementById('closeLeaderboardModal').click();
+            setTimeout(() => document.getElementById('startGameBtn').click(), 500);
+        });
         await new Promise(r => setTimeout(r, 1000));
         await page.screenshot({ path: path.join(basePath, '2.png') });
         console.log("Captured 2.png");
@@ -52,36 +73,17 @@ const path = require('path');
         // 5. Levels Modal
         console.log("Opening levels modal...");
         await page.evaluate(() => {
-            document.getElementById('levelCompleteModal').classList.remove('active');
-            const elex = document.getElementById('showLevelsModal');
-            elex.classList.add('active');
-            elex.style.display = 'flex';
+            const el1 = document.getElementById('levelCompleteModal');
+            el1.classList.remove('active');
+            el1.style.display = 'none';
+            
+            const el2 = document.getElementById('showLevelsModal');
+            el2.classList.add('active');
+            el2.style.display = 'flex';
         });
         await new Promise(r => setTimeout(r, 1000));
         await page.screenshot({ path: path.join(basePath, '5.png') });
         console.log("Captured 5.png");
-
-        // 6. Auth Modal
-        console.log("Opening auth modal...");
-        await page.evaluate(() => {
-            document.getElementById('showLevelsModal').classList.remove('active');
-            const elauth = document.getElementById('authModal');
-            elauth.classList.add('active');
-        });
-        await new Promise(r => setTimeout(r, 1000));
-        await page.screenshot({ path: path.join(basePath, '6.png') });
-        console.log("Captured 6.png");
-
-        // 7. Leaderboard Modal
-        console.log("Opening leaderboard modal...");
-        await page.evaluate(() => {
-            document.getElementById('authModal').classList.remove('active');
-            const elb = document.getElementById('leaderboardModal');
-            elb.classList.add('active');
-        });
-        await new Promise(r => setTimeout(r, 1000));
-        await page.screenshot({ path: path.join(basePath, '7.png') });
-        console.log("Captured 7.png");
 
         console.log("All screenshots captured successfully!");
     } catch (e) {
