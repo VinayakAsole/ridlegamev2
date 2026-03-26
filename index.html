@@ -24,9 +24,17 @@
     <canvas id="fireworksCanvas"></canvas>
 
     <!-- Dark Mode Toggle -->
-    <button id="darkModeToggle" class="dark-mode-toggle" title="Toggle Dark Mode">
-        <i class="fas fa-moon" id="darkModeIcon"></i>
-    </button>
+    <div class="top-controls">
+        <div id="userProfileInfo" class="user-profile-info" style="display: none;">
+            <i class="fas fa-user-circle"></i> <span id="userNameDisplay"></span>
+            <button id="logoutBtn" class="control-btn logout" title="Sign Out"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+        <button id="loginBtn" class="control-btn login" title="Sign In / Register"><i class="fas fa-user"></i> Login</button>
+        <button id="leaderboardBtn" class="control-btn leaderboard" title="Global Leaderboard"><i class="fas fa-trophy"></i> Rank</button>
+        <button id="darkModeToggle" class="control-btn dark-mode-toggle" title="Toggle Dark Mode">
+            <i class="fas fa-moon" id="darkModeIcon"></i>
+        </button>
+    </div>
 
     <div class="container">
 
@@ -437,6 +445,64 @@
             </div>
         </div>
 
+        <!-- ══════════════════ AUTH MODAL ══════════════════ -->
+        <div id="authModal" class="modal">
+            <div class="modal-content auth-modal">
+                <div class="modal-header">
+                    <h2 id="authTitle"><i class="fas fa-lock"></i> Sign In</h2>
+                    <button id="closeAuthModal" class="close-modal-btn"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body auth-body">
+                    <p class="auth-subtitle">Join the challenge and save your progress!</p>
+                    <div id="authError" class="auth-error"></div>
+                    <form id="authForm" class="auth-form">
+                        <div class="input-group" id="authNameGroup" style="display: none;">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" id="authName" placeholder="Display Name">
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" id="authEmail" placeholder="Email Address" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-key input-icon"></i>
+                            <input type="password" id="authPassword" placeholder="Password" required>
+                        </div>
+                        <button type="submit" id="authSubmitBtn" class="modal-btn primary btn-3d full-width">
+                            <span class="btn-text">Sign In</span>
+                            <span class="btn-glow"></span>
+                        </button>
+                    </form>
+                    <p id="authSwitchText" class="auth-switch-text">
+                        Need an account? <span onclick="window.toggleAuthMode && window.toggleAuthMode()" class="auth-link">Sign Up</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════════ LEADERBOARD MODAL ══════════════════ -->
+        <div id="leaderboardModal" class="modal">
+            <div class="modal-content leaderboard-modal">
+                <div class="modal-header">
+                    <h2><i class="fas fa-trophy"></i> Global Leaderboard</h2>
+                    <button id="closeLeaderboardModal" class="close-modal-btn"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body leaderboard-body">
+                    <div class="leaderboard-headers">
+                        <span>Rank</span>
+                        <span>Player</span>
+                        <span>Stats</span>
+                    </div>
+                    <div id="leaderboardList" class="leaderboard-list">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="closeLeaderboardBtn" class="modal-btn secondary">Close</button>
+                </div>
+            </div>
+        </div>
+
         <!-- Toast -->
         <div id="toastNotification" class="toast">
             <span id="toastMessage"></span>
@@ -447,6 +513,10 @@
         </footer>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+    <script src="firebase-auth.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

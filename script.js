@@ -762,7 +762,10 @@ class AlphanumericalRiddleGame {
     }
 
     /* ── Persistence ────────────────────────────────────── */
-    saveStats() { localStorage.setItem('riddleGameStats', JSON.stringify(this.stats)); }
+    saveStats() { 
+        localStorage.setItem('riddleGameStats', JSON.stringify(this.stats)); 
+        if (window.recordStatsToLeaderboard) window.recordStatsToLeaderboard(this.stats);
+    }
     loadStats() {
         const s = localStorage.getItem('riddleGameStats');
         if (s) { try { this.stats = { ...this.stats, ...JSON.parse(s) }; } catch(e){} }

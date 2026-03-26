@@ -76,23 +76,43 @@ body {
     66%      { transform: translateY(20px) scale(0.95); }
 }
 
-/* ─── Dark Mode Toggle ───────────────────────────────────── */
-.dark-mode-toggle {
+/* ─── Top Controls (Dark Mode, Auth, Leaderboard) ─── */
+.top-controls {
     position: fixed; top: 20px; right: 20px; z-index: 2000;
+    display: flex; align-items: center; gap: 12px;
+}
+.control-btn {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
     backdrop-filter: var(--card-blur);
     color: var(--neon-blue);
-    width: 46px; height: 46px; border-radius: 50%;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem; transition: var(--t);
+    height: 46px; border-radius: 23px;
+    cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+    font-size: 1rem; font-family: 'Poppins', sans-serif; font-weight: 600;
+    transition: var(--t); padding: 0 16px; gap: 8px;
     box-shadow: 0 0 15px rgba(0,212,255,0.2);
 }
-.dark-mode-toggle:hover {
-    transform: scale(1.15) rotate(20deg);
-    box-shadow: 0 0 25px rgba(0,212,255,0.5);
+.control-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 25px rgba(0,212,255,0.4);
     color: #fff;
 }
+.control-btn.dark-mode-toggle { width: 46px; padding: 0; font-size: 1.1rem; border-radius: 50%; }
+.control-btn.dark-mode-toggle:hover { transform: scale(1.15) rotate(20deg); }
+.control-btn.leaderboard { color: #fbbf24; box-shadow: 0 0 15px rgba(251,191,36,0.2); border-color: rgba(251,191,36,0.3); }
+.control-btn.leaderboard:hover { box-shadow: 0 0 25px rgba(251,191,36,0.4); border-color: #fbbf24; }
+.control-btn.login { color: var(--neon-purple); box-shadow: 0 0 15px rgba(168,85,247,0.2); border-color: rgba(168,85,247,0.3); }
+.control-btn.login:hover { box-shadow: 0 0 25px rgba(168,85,247,0.4); border-color: var(--neon-purple); }
+
+.user-profile-info {
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    padding: 6px 16px; border-radius: 25px; backdrop-filter: var(--card-blur);
+    color: var(--text-primary); font-weight: 600;
+}
+.user-profile-info i { color: var(--neon-blue); font-size: 1.2rem; }
+.control-btn.logout { width: 34px; height: 34px; padding: 0; background: transparent; border: none; box-shadow: none; color: #f87171; border-radius: 50%; }
+.control-btn.logout:hover { background: rgba(2ef,68,68,0.2); color: #ef4444; transform: scale(1.1); box-shadow: 0 0 10px rgba(239,68,68,0.3); }
 
 /* ─── Container ─────────────────────────────────────────── */
 .container {
@@ -737,6 +757,38 @@ button:disabled { opacity: 0.38; cursor: not-allowed; transform: none !important
 .legend-icon.current   { background: linear-gradient(135deg, #92400e, #b45309); }
 .legend-icon.locked    { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); }
 .levels-footer { padding: 16px 26px 26px; background: rgba(0,0,0,0.2); display: flex; gap: 12px; justify-content: center; }
+
+/* ─── Auth Modal ────────────────────────────────────────── */
+.auth-modal { max-width: 420px; }
+.auth-body { padding: 30px 40px; }
+.auth-subtitle { color: var(--text-secondary); margin-bottom: 24px; font-size: 0.95rem; }
+.auth-error { color: #f87171; font-size: 0.9rem; margin-bottom: 12px; min-height: 18px; }
+.input-group { position: relative; margin-bottom: 18px; }
+.input-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); font-size: 1.1rem; }
+.input-group input { width: 100%; padding: 14px 14px 14px 45px; background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.12); border-radius: var(--radius-lg); color: var(--text-primary); font-family: 'Poppins', sans-serif; transition: var(--t); outline: none; }
+.input-group input:focus { border-color: var(--neon-purple); box-shadow: 0 0 20px rgba(168,85,247,0.2); }
+.full-width { width: 100%; padding: 16px; font-size: 1.1rem; margin-top: 10px; }
+.auth-switch-text { margin-top: 24px; font-size: 0.9rem; color: var(--text-secondary); }
+.auth-link { color: var(--neon-blue); font-weight: 600; cursor: pointer; transition: color 0.2s; text-decoration: underline; }
+.auth-link:hover { color: #fff; text-shadow: 0 0 10px var(--neon-blue); }
+
+/* ─── Leaderboard Modal ─────────────────────────────────── */
+.leaderboard-modal { max-width: 600px; }
+.leaderboard-body { padding: 20px 30px; }
+.leaderboard-headers { display: flex; justify-content: space-between; padding: 0 20px 10px; border-bottom: 1px solid rgba(255,255,255,0.1); color: var(--text-secondary); font-size: 0.85rem; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
+.leaderboard-list { max-height: 50vh; overflow-y: auto; overflow-x: hidden; padding-top: 10px; }
+.leaderboard-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-radius: 12px; margin-bottom: 8px; background: rgba(255,255,255,0.03); transition: var(--t); }
+.leaderboard-item:hover { background: rgba(255,255,255,0.08); transform: scale(1.02); }
+.leaderboard-item.current-user-rank { background: linear-gradient(90deg, rgba(168,85,247,0.15), rgba(0,212,255,0.15)); border: 1px solid rgba(168,85,247,0.3); }
+.rank-num { font-size: 1.2rem; font-weight: 700; width: 40px; color: var(--text-secondary); font-family: 'Orbitron', monospace; }
+.rank-1 .rank-num { font-size: 1.5rem; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+.lb-name { flex: 1; font-weight: 600; color: var(--text-primary); font-size: 1.05rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lb-stats { display: flex; gap: 16px; }
+.lb-stat { display: flex; align-items: center; gap: 6px; font-weight: 600; color: var(--text-primary); font-family: 'Orbitron', monospace; }
+.lb-stat i.fa-check-circle { color: #4ade80; }
+.lb-stat i.fa-fire { color: var(--neon-orange); }
+.empty-state, .loading-state, .error-state { text-align: center; padding: 40px 0; color: var(--text-secondary); font-size: 1.1rem; }
+.error-state { color: #f87171; }
 
 /* ─── Toast ──────────────────────────────────────────────── */
 .toast {
