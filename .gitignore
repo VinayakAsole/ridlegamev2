@@ -1,3 +1,8 @@
 node_modules/
 .DS_Store
 *.env
+report_diagrams/
+generate_report.py
+modify_docx.py
+read_docx.py
+take_screenshots.js

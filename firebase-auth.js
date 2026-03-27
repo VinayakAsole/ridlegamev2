@@ -217,10 +217,11 @@ async function openLeaderboard() {
     leaderboardList.innerHTML = '<div class="loading-state"><i class="fas fa-spinner fa-spin"></i> Loading Leaderboard...</div>';
 
     try {
+        // Single orderBy avoids needing a composite Firestore index.
+        // We fetch more results and sort by bestStreak client-side as a tiebreaker.
         const snapshot = await db.collection('users')
             .orderBy('totalCorrect', 'desc')
-            .orderBy('bestStreak', 'desc')
-            .limit(10)
+            .limit(20)
             .get();
 
         leaderboardList.innerHTML = '';
@@ -229,11 +230,20 @@ async function openLeaderboard() {
             return;
         }
 
+        // Client-side tiebreaker sort by bestStreak (avoids composite index)
+        const docs = [];
+        snapshot.forEach(doc => docs.push({ id: doc.id, data: doc.data() }));
+        docs.sort((a, b) => {
+            const diff = (b.data.totalCorrect || 0) - (a.data.totalCorrect || 0);
+            if (diff !== 0) return diff;
+            return (b.data.bestStreak || 0) - (a.data.bestStreak || 0);
+        });
+        const top10 = docs.slice(0, 10);
+
         let rank = 1;
-        snapshot.forEach(doc => {
-            const data = doc.data();
+        top10.forEach(({ id, data }) => {
             const item = document.createElement('div');
-            item.className = `leaderboard-item ${currentUser && currentUser.uid === doc.id ? 'current-user-rank' : ''} rank-${rank}`;
+            item.className = `leaderboard-item ${currentUser && currentUser.uid === id ? 'current-user-rank' : ''} rank-${rank}`;
 
             let medal = `<div class="rank-num">${rank}</div>`;
             if (rank === 1) medal = `<div class="rank-num"><i class="fas fa-medal" style="color: #ffd700;"></i></div>`;
